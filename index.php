@@ -1,83 +1,70 @@
-<?php include 'conexao.php'; ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PHP CRUD | Lista de Clientes</title>
+  <title>PHP CRUD | Login</title>
   <style>
     body {
       padding: 0 24px;
     }
-    /* table, th, td {
-      border: 1px solid;
-    } */
-    table {
-      border-collapse: collapse;
-
-    }
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    th {
-      background-color: navy;
-      color: white;
-    }
   </style>
 </head>
-<body>
 
+<body>
   <?php
-    $sql = 'SELECT * FROM clientes ORDER BY id DESC';
-    $result = $db_connect->query($sql) or die($db_connect->error);
-    $qtd_clientes = $result->num_rows;
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+      include 'conexao.php';
+
+      $email = $_POST['email'];
+      $senha = $_POST['senha'];
+
+      if (empty($email)) {
+        $erro = 'O e-mail é obrigatório';
+      } 
+      elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erro = 'E-mail inválido';
+      } 
+      elseif (empty($senha)) {
+        $erro = 'Senha é obrigatória';
+      }
+      else {
+
+        $sql = "SELECT * FROM usuarios WHERE email = '{$email}'";
+	
+        $result = $db_connect->query($sql) or die($db_connect->error);
+
+        $row = $result->fetch_assoc();
+
+        if (!password_verify($senha, $row['senha'])) {
+          $erro = "Senha ou e-mail incorreto!";
+        } else {
+          header("Location: http://localhost/php-crud/clientes.php");        
+        }
+      }
+    }
   ?>
 
-  <h1>Lista de Clientes</h1>
+  <h1>Acesso ao Sistema</h1>
 
-  <table border="1" cellpadding="12" >
-    <thead>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>E-mail</th>
-      <th>Telefone</th>
-      <th>Dt. Nascimento</th>
-      <th>Dt. Cadastro</th>
-      <th>Ações</th>
-    </thead>
-    <tbody>
-      <?php 
-        if ($qtd_clientes == 0) { ?>
-          <tr>
-            <td colspan="7">Nenhum cliente foi cadastrado!</td>
-          </tr>
-      <?php 
-        } else {
-          while ($row = $result->fetch_assoc()) { 
-            $dtcad = date('d/m/Y H:i', strtotime($row['dtcad']));
-            $dtnas = $row['dtnas'];
-            if (!empty($dtnas))
-              $dtnas = date('d/m/Y', strtotime($dtnas));
-          ?>
-            <tr>
-              <td><?php echo $row['id']; ?></td>
-              <td><?php echo $row['nome']; ?></td>
-              <td><?php echo $row['email']; ?></td>
-              <td><?php echo $row['telefone']; ?></td>
-              <td><?php echo $dtnas; ?></td>
-              <td><?php echo $dtcad; ?></td>
-              <td>
-                <a href="editar-cliente.php?id=<?php echo $row['id']; ?>">Alterar</a>
-                <a href="excluir-cliente.php?id=<?php echo $row['id']; ?>">Excluir</a>
-              </td>
-            </tr>
-      <?php }} ?>
-    </tbody>
-  </table>
+  <form action="" method="post">
+    <p>
+      <label for="email">E-mail:</label>
+      <input type="text" id="email" name="email" value="<?php echo $email; ?>" />
+    </p>
+    <p>
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" value="<?php echo $senha; ?>" />
+    </p>
 
-  <br>
-  <a href="cadastrar-cliente.php">Incluir novo cliente</a>
-  
+    <p style="color: red"><?php echo $erro; ?></p>
+    
+    <p>
+      <button type="submit">Confirma</button>
+    </p>
+    <a href="signup.php">Não tem senha? Cadastre-se!</a>
+  </form>
+ 
 </body>
 </html>
