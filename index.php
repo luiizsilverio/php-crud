@@ -1,3 +1,7 @@
+<?php 
+  session_start(); 
+?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -13,6 +17,10 @@
 
 <body>
   <?php
+    if (isset($_SESSION['idUsuario'])) {
+      $email = $_SESSION['emailUsuario'];
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       include 'conexao.php';
@@ -40,7 +48,11 @@
         if (!password_verify($senha, $row['senha'])) {
           $erro = "Senha ou e-mail incorreto!";
         } else {
-          header("Location: http://localhost/php-crud/clientes.php");        
+          $_SESSION['idUsuario'] = $row['id'];
+          $_SESSION['nomeUsuario'] = $row['nome'];
+          $_SESSION['emailUsuario'] = $email;
+
+          header("Location: clientes.php");        
         }
       }
     }
@@ -63,7 +75,8 @@
     <p>
       <button type="submit">Confirma</button>
     </p>
-    <a href="signup.php">Não tem senha? Cadastre-se!</a>
+    Não tem senha? <a href="signup.php">Cadastre-se!</a>
+    <!-- <pre><?php var_dump($_SESSION); ?></pre> -->
   </form>
  
 </body>
