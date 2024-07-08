@@ -23,7 +23,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-      include 'lib/conexao.php';
+      include 'conexao.php';
 
       $email = $_POST['email'];
       $senha = $_POST['senha'];

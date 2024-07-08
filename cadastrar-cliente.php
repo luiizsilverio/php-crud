@@ -14,17 +14,12 @@
     <?php
 
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-          include 'lib/conexao.php';
-          include 'lib/mail.php';
-          include 'lib/upload.php';
-
+          include 'conexao.php';
           $nome     = $_POST['nome'];
           $email    = $_POST['email'];
           $telefone = $_POST['telefone'];
           $dtnas    = $_POST['dtnas'];
-          $senha    = $_POST['senha'];
           $erro     = "";
-          $path     = "";
 
           $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
@@ -37,38 +32,12 @@
           elseif (!empty($dtnas) && !strtotime($dtnas)) {
             $erro = 'Data inválida';
           }
-          elseif (strlen($senha) < 4 || strlen($senha) > 16) {
-            $erro = 'A senha deve ter tamanho entre 6 e 16 caracteres';
-          }
-          elseif (isset($_FILES['foto'])) {   // Upload de foto
-            if (isset($_FILES['foto'])) {
-              $arq = $_FILES['foto'];
-              $path = enviarArquivo($arq['error'], $arq['size'], $arq['name'], $arq['tmp_name']);
-              if ($path == false) 
-                $erro = 'Falha ao enviar a foto';
-            }
-          }
-
-          if (empty($erro)) {
-            $hash = password_hash($senha, PASSWORD_DEFAULT);
-
-            $sql = "INSERT INTO clientes (nome, email, telefone, dtnas, senha, foto) 
-                    VALUES ('$nome', '$email', '$telefone', '$dtnas', '$hash', '$path')";
+          else {
+            $sql = "INSERT INTO clientes (nome, email, telefone, dtnas) VALUES ('$nome', '$email', '$telefone', '$dtnas')";
 
             try {
               $db_connect->query($sql);
               $sucesso = "Cliente cadastrado com sucesso!";
-
-              enviar_email($email, "Sua conta foi criada!", "
-                <h1>Parabéns!</h1>
-                <p>Sua conta no nosso site foi criada!</p>
-                <p>
-                  <strong>Login:</strong> $email <br>
-                  <strong>Senha:</strong> $senha <br>
-                </p>         
-                <p>Para fazer login, acesse <a href=\"http://localhost/php-crud/index.php\">nosso site</a>.</p>       
-              ");
-
               // unset($_POST);
               $nome = '';
               $email = '';
@@ -83,7 +52,7 @@
 
     ?>
 
-  <form action="" method="post" enctype="multipart/form-data">
+  <form action="" method="post" >
     <p>
       <label for="nome">Nome</label>
       <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" /> 
@@ -104,16 +73,6 @@
       <input type="date" name="dtnas" id="dtnas" 
         value="<?php echo $dtnas; ?>" 
       />
-    </p>
-    <p>
-      <label for="senha">Senha:</label>
-      <input type="password" name="senha" id="senha" 
-        value="<?php echo $senha; ?>" 
-      />
-    </p>
-    <p>
-      <label for="foto">Foto</label>
-      <input type="file" name="foto" id="foto" />
     </p>
     <p>
       <p style="color: red; font-style=bold;"><?php echo $erro; ?></p>

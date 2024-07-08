@@ -1,5 +1,0 @@
-vendor
-*.lock
-
-tmp/*
-!tmp/.gitkeep
