@@ -17,8 +17,8 @@
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-      include 'conexao.php';
-      include 'helpers.php';
+      include 'lib/conexao.php';
+      include 'lib/helpers.php';
 
       $nome = $_POST['nome'];
       $email = $_POST['email'];
@@ -47,7 +47,7 @@
       else {
         $nome = clear_input($nome); // função clean_input no código abaixo
         $email = clear_input($email);
-        $hash = password_hash($senha, PASSWORD_DEFAULT);
+        $hash = ($senha, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO usuarios (nome, email, senha) VALUES ('{$nome}', '{$email}', '{$hash}')";
 	

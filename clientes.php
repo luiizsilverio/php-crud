@@ -1,4 +1,4 @@
-<?php include 'conexao.php'; ?>
+<?php include 'lib/conexao.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">

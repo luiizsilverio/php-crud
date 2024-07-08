@@ -1,4 +1,4 @@
-<?php include 'conexao.php'; 
+<?php include 'lib/conexao.php'; 
 
   $id = intval($_GET['id']);
 
