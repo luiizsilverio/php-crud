@@ -17,8 +17,8 @@
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-      include 'conexao.php';
-      include 'helpers.php';
+      include 'lib/conexao.php';
+      include 'lib/helpers.php';
 
       $nome = $_POST['nome'];
       $email = $_POST['email'];
