@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+  border: 0;
+}
+
+body, html {
+  font-family: sans-serif;
+}
+
+.container {
+  padding: 0 32px;
+}
+
+h1 {
+  color: darkslateblue;
+}
+
+table {
+  border-collapse: collapse;
+
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+th {
+  background-color: darkslateblue;
+  color: white;
+}
+
+i {
+  font-size: 20px;
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+  height: auto;
+}
+
+a:hover {
+  filter: brightness(.8);
+}
+
+td a:nth-child(1) {
+  margin-right: 8px;
+}
+
+button, input[type="submit"], input[type="button"] {
+  padding: 8px 12px;
+  color: white;
+  background-color: cadetblue;
+  outline: none;
+  border: 0;
+}
+
+input {
+  margin-bottom: 4px;
+}
+
+input:not([type="date"]) {
+  width: 300px;
+}
+
+input[type="button"] {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+button:hover, input[type="submit"]:hover {
+  filter: brightness(1.2);
+}
+
+.header {
+  background-color: rgb(242, 242, 242); 
+  padding: 18px 32px; 
+}
+
+
+button[type="submit"], button[type="button"] {
+  width: 300px;
+}

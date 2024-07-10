@@ -1,0 +1,6 @@
+\vendor
+*.lock
+.env
+
+tmp/*
+!tmp/.gitkeep

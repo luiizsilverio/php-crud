@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>PHP CRUD</title>
   </head>
   
   <body>
-    <?php include "header.php" ?>
-
-    <h1>Novo Cliente</h1>
-    
-    <?php
+    <?php include "header.php";
 
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           include 'lib/conexao.php';
@@ -41,12 +39,10 @@
             $erro = 'A senha deve ter tamanho entre 6 e 16 caracteres';
           }
           elseif (isset($_FILES['foto'])) {   // Upload de foto
-            if (isset($_FILES['foto'])) {
-              $arq = $_FILES['foto'];
-              $path = enviarArquivo($arq['error'], $arq['size'], $arq['name'], $arq['tmp_name']);
-              if ($path == false) 
-                $erro = 'Falha ao enviar a foto';
-            }
+            $arq = $_FILES['foto'];
+            $path = enviarArquivo($arq['error'], $arq['size'], $arq['name'], $arq['tmp_name']);
+            if ($path == false) 
+              $erro = 'Falha ao enviar a foto';
           }
 
           if (empty($erro)) {
@@ -83,43 +79,47 @@
 
     ?>
 
-  <form action="" method="post" enctype="multipart/form-data">
-    <p>
-      <label for="nome">Nome</label>
-      <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" /> 
-    </p>
-    <p>
-      <label for="email">E-mail:</label>
-      <input type="email" name="email" id="email" value="<?php echo $email; ?>" /> 
-    </p>
-    <p>
-      <label for="telefone">Telefone:</label>
-      <input type="text" name="telefone" id="telefone" 
-        placeholder="(99) 9999-9999"
-        value="<?php echo $telefone; ?>" 
-      /> 
-    </p>
-    <p>
-      <label for="dtnas">Dt. Nascimento:</label>
-      <input type="date" name="dtnas" id="dtnas" 
-        value="<?php echo $dtnas; ?>" 
-      />
-    </p>
-    <p>
-      <label for="senha">Senha:</label>
-      <input type="password" name="senha" id="senha" 
-        value="<?php echo $senha; ?>" 
-      />
-    </p>
-    <p>
-      <label for="foto">Foto</label>
-      <input type="file" name="foto" id="foto" />
-    </p>
-    <p>
-      <p style="color: red; font-style=bold;"><?php echo $erro; ?></p>
-      <p style="color: blue; font-style=bold;"><?php echo $sucesso; ?></p>
-      <button type="submit">Salvar Cliente</button>
-    </p>
-  </form>
-</body>
+    <div class="container">
+      <h1>Novo Cliente</h1>
+
+      <form action="" method="post" enctype="multipart/form-data">
+        <p>
+          <label for="nome">Nome</label><br>
+          <input type="text" name="nome" id="nome" value="<?php echo $nome; ?>" /> 
+        </p>
+        <p>
+          <label for="email">E-mail:</label><br>
+          <input type="email" name="email" id="email" value="<?php echo $email; ?>" /> 
+        </p>
+        <p>
+          <label for="telefone">Telefone:</label><br>
+          <input type="text" name="telefone" id="telefone" 
+            placeholder="(99) 9999-9999"
+            value="<?php echo $telefone; ?>" 
+          /> 
+        </p>
+        <p>
+          <label for="dtnas">Dt. Nascimento:</label><br>
+          <input type="date" name="dtnas" id="dtnas" 
+            value="<?php echo $dtnas; ?>" 
+          />
+        </p>
+        <p>
+          <label for="senha">Senha:</label><br>
+          <input type="password" name="senha" id="senha" 
+            value="<?php echo $senha; ?>" 
+          />
+        </p>
+        <p>
+          <label for="foto">Foto</label>
+          <input type="file" name="foto" id="foto" />
+        </p>
+        <p>
+          <p style="color: red; font-style=bold;"><?php echo $erro; ?></p>
+          <p style="color: blue; font-style=bold;"><?php echo $sucesso; ?></p>
+          <button type="submit">Salvar Cliente</button>
+        </p>
+      </form>
+    </div>
+  </body>
 </html>

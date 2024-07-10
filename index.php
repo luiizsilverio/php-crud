@@ -7,12 +7,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css" />
   <title>PHP CRUD | Login</title>
-  <style>
-    body {
-      padding: 0 24px;
-    }
-  </style>
 </head>
 
 <body>
@@ -58,26 +54,28 @@
     }
   ?>
 
-  <h1>Acesso ao Sistema</h1>
+  <div class="container">
+    <h1>Acesso ao Sistema</h1>
 
-  <form action="" method="post">
-    <p>
-      <label for="email">E-mail:</label>
-      <input type="text" id="email" name="email" value="<?php echo $email; ?>" />
-    </p>
-    <p>
-      <label for="senha">Senha:</label>
-      <input type="password" id="senha" name="senha" value="<?php echo $senha; ?>" />
-    </p>
+    <form action="" method="post">
+      <p>
+        <label for="email">E-mail:</label>
+        <input type="text" id="email" name="email" value="<?php echo $email; ?>" />
+      </p>
+      <p>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" value="<?php echo $senha; ?>" />
+      </p>
 
-    <p style="color: red"><?php echo $erro; ?></p>
-    
-    <p>
-      <button type="submit">Confirma</button>
-    </p>
-    Não tem senha? <a href="signup.php">Cadastre-se!</a>
-    <!-- <pre><?php var_dump($_SESSION); ?></pre> -->
-  </form>
+      <p style="color: red"><?php echo $erro; ?></p>
+      
+      <p>
+        <button type="submit">Confirma</button>
+      </p>
+      Não tem senha? <a href="signup.php">Cadastre-se!</a>
+      <!-- <pre><?php var_dump($_SESSION); ?></pre> -->
+    </form>
+  </div>
  
 </body>
 </html>

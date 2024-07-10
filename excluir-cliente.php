@@ -5,7 +5,7 @@
   if ($id == 0) 
     die("Cliente não encontrado!");
 
-  $sql = "SELECT nome FROM clientes WHERE id = {$id}";
+  $sql = "SELECT nome, foto FROM clientes WHERE id = {$id}";
   
   try {
     $result = $db_connect->query($sql) or die($db_connect->error);
@@ -27,22 +27,31 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
     <title>PHP CRUD | Excluir Cliente</title>
   </head>
   
   <body>
-    <?php include "header.php";
-    
-      if ($_SERVER['REQUEST_METHOD'] != 'POST') { ?>
-        <h2>Tem certeza de que deseja excluir este cliente?</h2>
-        <h3><?php echo $cliente['nome']; ?></h3>
+    <?php include "header.php"; ?>
 
-        <form action="" method="post">
-          <input type="button" onclick="location.href='clientes.php';" value="Não" />
-          <button type="submit">Sim</button>
-        </form>
+    <div class="container">
+
+      <?php
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') { ?>
+          <h2>Tem certeza de que deseja excluir este cliente?</h2>
+          <h3><?php echo $cliente['nome']; ?></h3>
+
+          <form action="" method="post">
+            <input type="button" 
+              onclick="location.href='clientes.php';" 
+              value="Não" 
+              style="width: 100px"
+            />
+            <button type="submit" style="width: 100px">Sim</button>
+          </form>
       <?php } ?>
 
+    </div>
     
     <?php
 
@@ -51,7 +60,10 @@
 
         try {
           if ($db_connect->query($sql)) {
-            echo "<h2>Cliente excluído com sucesso!</h2>";;
+            echo "<h2>Cliente excluído com sucesso!</h2>";
+
+            if (!empty($cliente['foto']))
+              unlink($cliente['foto']); // apaga a foto antiga
           }
         }
         catch (Exception $e) {
