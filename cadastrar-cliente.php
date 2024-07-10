@@ -21,6 +21,7 @@
           $telefone = $_POST['telefone'];
           $dtnas    = $_POST['dtnas'];
           $senha    = $_POST['senha'];
+          $admin    = $_POST['admin'];
           $erro     = "";
           $path     = "";
 
@@ -38,7 +39,7 @@
           elseif (strlen($senha) < 4 || strlen($senha) > 16) {
             $erro = 'A senha deve ter tamanho entre 6 e 16 caracteres';
           }
-          elseif (isset($_FILES['foto'])) {   // Upload de foto
+          elseif (isset($_FILES['foto']) && !empty($_FILES['foto']['name'])) {   // Upload de foto
             $arq = $_FILES['foto'];
             $path = enviarArquivo($arq['error'], $arq['size'], $arq['name'], $arq['tmp_name']);
             if ($path == false) 
@@ -48,8 +49,8 @@
           if (empty($erro)) {
             $hash = password_hash($senha, PASSWORD_DEFAULT);
 
-            $sql = "INSERT INTO clientes (nome, email, telefone, dtnas, senha, foto) 
-                    VALUES ('$nome', '$email', '$telefone', '$dtnas', '$hash', '$path')";
+            $sql = "INSERT INTO clientes (nome, email, telefone, dtnas, senha, foto, admin) 
+                    VALUES ('$nome', '$email', '$telefone', '$dtnas', '$hash', '$path', '$admin')";
 
             try {
               $db_connect->query($sql);
@@ -113,6 +114,11 @@
         <p>
           <label for="foto">Foto</label>
           <input type="file" name="foto" id="foto" />
+        </p>
+        <p>
+          <label>Tipo:</label>
+          <input type="radio" name="admin" value="1" />ADMIN
+          <input type="radio" name="admin" value="0" checked />CLIENTE
         </p>
         <p>
           <p style="color: red; font-style=bold;"><?php echo $erro; ?></p>

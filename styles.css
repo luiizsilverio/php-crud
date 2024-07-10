@@ -58,9 +58,10 @@ input {
   margin-bottom: 4px;
 }
 
-input:not([type="date"]) {
+input[type="text"], input[type="email"], input[type="password"] {
   width: 300px;
 }
+
 
 input[type="button"] {
   background-color: white;

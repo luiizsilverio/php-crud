@@ -21,6 +21,8 @@
     $telefone = $cliente['telefone'];
     $dtnas    = $cliente['dtnas'];
     $foto     = $cliente['foto'];
+    $admin    = $cliente['admin'] ?? "0";
+    
   }
   catch (Exception $e) {
     $erro = "Erro ao enviar dados: " . $db_connect->error;
@@ -49,6 +51,7 @@
           $telefone  = $_POST['telefone'];
           $dtnas     = $_POST['dtnas'];
           $senha     = $_POST['senha'];
+          $admin     = $_POST['admin'];
           $erro      = "";
           $sql_foto  = "";
           $sql_senha = "";
@@ -71,7 +74,7 @@
             $erro = 'A senha deve ter tamanho entre 6 e 16 caracteres';
           }
 
-          if (isset($_FILES['foto'])) {   // Upload de foto
+          if (isset($_FILES['foto']) && !empty($_FILES['foto']['name'])) {   // Upload de foto
             $arq = $_FILES['foto'];
             $path = enviarArquivo($arq['error'], $arq['size'], $arq['name'], $arq['tmp_name']);
             if ($path == false) 
@@ -95,7 +98,8 @@
                     telefone = '$telefone', 
                     {$sql_senha}
                     {$sql_foto}
-                    dtnas = '$dtnas' 
+                    dtnas = '$dtnas',
+                    admin = $admin
                     WHERE id = {$id}";
 
             try {
@@ -153,6 +157,15 @@
         <p>
           <label for="foto">Nova Foto</label><br>
           <input type="file" name="foto" id="foto" />
+        </p>
+        <p>
+          <label>Tipo:</label>
+          <input type="radio" name="admin" value="1" 
+            <?php if ($admin == "1") echo "checked"; ?>
+          />ADMIN
+          <input type="radio" name="admin" value="0" 
+            <?php if ($admin == "0") echo "checked"; ?> 
+          />CLIENTE
         </p>
         <p>
           <p style="color: red; font-style=bold;"><?php echo $erro; ?></p>

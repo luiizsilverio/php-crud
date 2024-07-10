@@ -27,6 +27,7 @@
     <table border="1" cellpadding="12" >
       <thead>
         <th>ID</th>
+        <th>Adm</th>
         <th>Foto</th>
         <th>Nome</th>
         <th>E-mail</th>
@@ -52,6 +53,11 @@
               <tr>
                 <td><?php echo $row['id']; ?></td>
                 <td>
+                  <?php if ($row['admin']) { ?>
+                  <i class="bi bi-star" style="color: green"></i>
+                  <?php } ?>
+                </td>
+                <td>
                   <?php if (!empty($row['foto'])) { ?>
                     <img src="<?php echo $row['foto']; ?>" alt="foto do cliente" height="50" />
                   <?php } ?>
@@ -61,9 +67,7 @@
                 <td><?php echo $row['telefone']; ?></td>
                 <td><?php echo $dtnas; ?></td>
                 <td><?php echo $dtcad; ?></td>
-                <td>
-                  <!-- <i class="bi bi-pencil-square" title="Alterar"></i>
-                  <i class="bi bi-x-circle" title="Excluir"></i> -->
+                <td>                  
                   <a href="editar-cliente.php?id=<?php echo $row['id']; ?>">
                     <i class="bi bi-pencil-square" title="Alterar" style="color: blue"></i>
                   </a>
