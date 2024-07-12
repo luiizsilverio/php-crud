@@ -1,4 +1,12 @@
-<?php include 'lib/conexao.php'; ?>
+<?php 
+  include 'lib/conexao.php'; 
+  
+  session_start();
+  if (!isset($_SESSION['idUsuario'])) {
+    header("Location: index.php");
+    die();
+  }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +29,15 @@
   <div class="container">
     <h1>Lista de Clientes</h1>
     <p>
-      <input type="submit" value="Incluir Novo Cliente" onclick="location.href='cadastrar-cliente.php';" />
+      <?php if ($_SESSION['admin']) { ?>
+        <input type="submit" value="Incluir Novo Cliente" 
+          onclick="location.href='cadastrar-cliente.php';" 
+        />
+      <?php } ?>
+      
+      <input type="button" value="Sair" 
+          onclick="location.href='logout.php';" 
+        />
     </p>
 
     <table border="1" cellpadding="12" >
@@ -34,13 +50,17 @@
         <th>Telefone</th>
         <th>Dt. Nascimento</th>
         <th>Dt. Cadastro</th>
-        <th>Ações</th>
+        <?php if ($_SESSION['admin']) { ?>
+          <th>Ações</th>
+        <?php } ?>
       </thead>
       <tbody>
         <?php 
           if ($qtd_clientes == 0) { ?>
             <tr>
-              <td colspan="7">Nenhum cliente foi cadastrado!</td>
+              <td colspan="<?php echo $_SESSION['admin'] ? 9 : 8; ?>">
+                Nenhum cliente foi cadastrado!
+              </td>
             </tr>
         <?php 
           } else {
@@ -54,7 +74,7 @@
                 <td><?php echo $row['id']; ?></td>
                 <td>
                   <?php if ($row['admin']) { ?>
-                  <i class="bi bi-star" style="color: green"></i>
+                    <i class="bi bi-star" style="color: green"></i>
                   <?php } ?>
                 </td>
                 <td>
@@ -67,14 +87,16 @@
                 <td><?php echo $row['telefone']; ?></td>
                 <td><?php echo $dtnas; ?></td>
                 <td><?php echo $dtcad; ?></td>
-                <td>                  
-                  <a href="editar-cliente.php?id=<?php echo $row['id']; ?>">
-                    <i class="bi bi-pencil-square" title="Alterar" style="color: blue"></i>
-                  </a>
-                  <a href="excluir-cliente.php?id=<?php echo $row['id']; ?>">
-                    <i class="bi bi-x-circle" title="Excluir" style="color: red"></i>
-                  </a>
-                </td>
+                <?php if ($_SESSION['admin']) { ?>
+                  <td>               
+                    <a href="editar-cliente.php?id=<?php echo $row['id']; ?>">
+                      <i class="bi bi-pencil-square" title="Alterar" style="color: blue"></i>
+                    </a>
+                    <a href="excluir-cliente.php?id=<?php echo $row['id']; ?>">
+                      <i class="bi bi-x-circle" title="Excluir" style="color: red"></i>
+                    </a>
+                  </td>
+                <?php } ?>
               </tr>
         <?php }} ?>
       </tbody>

@@ -1,6 +1,4 @@
-<?php 
-  session_start(); 
-?>
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -35,21 +33,30 @@
       }
       else {
 
-        $sql = "SELECT * FROM usuarios WHERE email = '{$email}'";
+        $sql = "SELECT * FROM clientes WHERE email = '{$email}'";
 	
         $result = $db_connect->query($sql) or die($db_connect->error);
 
         $row = $result->fetch_assoc();
 
-        if (!password_verify($senha, $row['senha'])) {
+        if ($result->num_rows == 0) {
+          $erro = 'O e-mail informado não foi encontrado';
+        }
+        elseif (!password_verify($senha, $row['senha'])) {
           $erro = "Senha ou e-mail incorreto!";
-        } else {
+        } 
+        else {
           $_SESSION['idUsuario'] = $row['id'];
           $_SESSION['nomeUsuario'] = $row['nome'];
           $_SESSION['emailUsuario'] = $email;
+          $_SESSION['admin'] = $row['admin'];
 
           header("Location: clientes.php");        
         }
+      }
+
+      if (!empty($erro)) {
+        session_unset();
       }
     }
   ?>
@@ -59,20 +66,22 @@
 
     <form action="" method="post">
       <p>
-        <label for="email">E-mail:</label>
+        <label for="email">E-mail:</label><br>
         <input type="text" id="email" name="email" value="<?php echo $email; ?>" />
       </p>
       <p>
-        <label for="senha">Senha:</label>
+        <label for="senha">Senha:</label><br>
         <input type="password" id="senha" name="senha" value="<?php echo $senha; ?>" />
       </p>
 
       <p style="color: red"><?php echo $erro; ?></p>
       
       <p>
-        <button type="submit">Confirma</button>
+        <button type="submit">Entrar</button>
       </p>
-      Não tem senha? <a href="signup.php">Cadastre-se!</a>
+      <small>
+        Não tem senha? <a href="signup.php">Cadastre-se!</a>
+      </small>
       <!-- <pre><?php var_dump($_SESSION); ?></pre> -->
     </form>
   </div>

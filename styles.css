@@ -54,6 +54,10 @@ button, input[type="submit"], input[type="button"] {
   border: 0;
 }
 
+button[type="submit"], button[type="button"] {
+  width: 308px;
+}
+
 input {
   margin-bottom: 4px;
 }
@@ -76,9 +80,4 @@ button:hover, input[type="submit"]:hover {
 .header {
   background-color: rgb(242, 242, 242); 
   padding: 18px 32px; 
-}
-
-
-button[type="submit"], button[type="button"] {
-  width: 300px;
 }

@@ -5,5 +5,7 @@
 
   $_SESSION['nomeUsuario'] = '';
   $_SESSION['emailUsuario'] = '';
+  $_SESSION['admin'] = '';
+  $_SESSION['idUsuario'] = '';
 
 ?>
